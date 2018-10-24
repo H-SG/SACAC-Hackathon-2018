@@ -74,11 +74,10 @@ def simTank(MW=[1], BW=[1], HU=[1], GU=[1], RW=[1], LInit=0.5):
     for i in range(0, len(MW)):
         totConsumption += MW[i] + BW[i]
 
-        tankBal = (MW[i] + BW[i] + RW[i]) - (HU[i] + GU[i])
-
         if not i:
             currLevel = LInit
-        
+
+        tankBal = (MW[i] + BW[i] + RW[i]) - (HU[i] + GU[i] + currLevel*LEAK_CONST)
         newVolume = TANK_VOLUME*currLevel + tankBal
 
         if newVolume > TANK_VOLUME*LMAX:
