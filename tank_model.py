@@ -77,8 +77,8 @@ def simTank(MW=[1], BW=[1], HU=[1], GU=[1], RW=[1], LInit=0.5):
         if not i:
             currLevel = LInit
 
-        tankBal = (MW[i] + BW[i] + RW[i]) - (HU[i] + GU[i] + currLevel*LEAK_CONST)
-        newVolume = TANK_VOLUME*currLevel + tankBal
+        accumulation = (MW[i] + BW[i] + RW[i]) - (HU[i] + GU[i] + currLevel*LEAK_CONST)
+        newVolume = TANK_VOLUME*currLevel + accumulation
 
         if newVolume > TANK_VOLUME*LMAX:
             currLevel = LMAX
