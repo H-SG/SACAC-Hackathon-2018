@@ -1,13 +1,15 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.io as sio
+import datetime as dt
 
 
+start_time = dt.datetime.now()
 from Controller import Controller
 from TanksMassBalance import TanksMassBalance
 
 ## Load example, pre-allocate vectors
-data = sio.loadmat("Example1")
+data = sio.loadmat("Example3")
 
 ABW = data["ABW"][:, 0]
 AMW = data["AMW"][:, 0]
@@ -47,6 +49,7 @@ def rotatein(ind, var, length):
 
 
 history = 24
+counter = 0
 for ind in range(1, N):
     # Controller inputs
     Linput = rotatein(ind, L[1:], history)
@@ -56,7 +59,7 @@ for ind in range(1, N):
     GUinput = rotatein(ind, GU, history)
 
     # Controller action
-    MWspec[ind], BWspec[ind] = Controller(Linput, AMWinput, ABWinput, HUinput, GUinput)
+    MWspec[ind], BWspec[ind] = Controller(Linput, AMWinput, ABWinput, HUinput, GUinput, counter=counter)
 
     L[ind + 1], MW[ind], BW[ind], HU[ind], GU[ind], OF[ind] = TanksMassBalance(
         L[ind],
@@ -66,8 +69,9 @@ for ind in range(1, N):
         MWspec[ind],
         BWspec[ind],
         HUreq[ind],
-        GUreq[ind],
+        GUreq[ind]
     )
+    counter += 1
 
 # Trim level vector
 L = L[:-1]
@@ -78,6 +82,13 @@ cBW = 60
 cHU = 150
 cGU = 70
 J = (cMW * MW + cBW * BW + cHU * (HUreq - HU) + cGU * (GUreq - GU)).sum()
+
+simTime = (dt.datetime.now() - start_time).total_seconds()
+
+import os
+if os.path.exists('my_fuzzy_controller.pkl'):
+    os.remove('my_fuzzy_controller.pkl')
+print('Took his many seconds for a run: ', simTime)
 
 ## Plots
 # Disturbances
@@ -108,6 +119,7 @@ plt.xlabel("Time step")
 plt.figure()
 plt.subplot(5, 1, 1)
 plt.plot(L)
+plt.plot(len(L)*[0.4*2.155])
 plt.ylabel("L")
 plt.axis("tight")
 plt.subplot(5, 1, 2)
