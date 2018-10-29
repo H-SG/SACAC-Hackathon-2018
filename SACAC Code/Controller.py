@@ -102,7 +102,7 @@ def save_or_load(filename, max_ww):
     return obj
 
 
-def Controller(L, AMW, ABW, HU, GU, counter=1):
+def Controller(L, AMW, ABW, HU, GU):
 
     """AMW, ABW, HU, GU refering to previous time step values
     AMW     -> available municipal water
@@ -184,7 +184,7 @@ def Controller(L, AMW, ABW, HU, GU, counter=1):
             BWspec = 0
         else:
             MWspec = MWmax
-            BWspec = total_water_needed - MWmax
+            BWspec = 0 #total_water_needed - MWmax
 
         # make everything less if we are above setpoint
         # print('Level erro: ', Lsp, L[0], level_error)

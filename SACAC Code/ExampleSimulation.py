@@ -59,7 +59,7 @@ for ind in range(1, N):
     GUinput = rotatein(ind, GU, history)
 
     # Controller action
-    MWspec[ind], BWspec[ind] = Controller(Linput, AMWinput, ABWinput, HUinput, GUinput, counter=counter)
+    MWspec[ind], BWspec[ind] = Controller(Linput, AMWinput, ABWinput, HUinput, GUinput)
 
     L[ind + 1], MW[ind], BW[ind], HU[ind], GU[ind], OF[ind] = TanksMassBalance(
         L[ind],
