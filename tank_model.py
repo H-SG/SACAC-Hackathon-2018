@@ -89,4 +89,4 @@ def simTank(MW=[1], BW=[1], HU=[1], GU=[1], RW=[1], LInit=0.5):
         else:
             currLevel = newVolume/TANK_VOLUME
 
-    return totOverflow, totUnderflow, totConsumption
+    return totOverflow, totUnderflow, totConsumption, currLevel
