@@ -19,15 +19,17 @@ def Controller(L, AMW, ABW, HU, GU):
         else:
             retMW = MWmax
     
-    if (tStep > 8400):
-        if L[0] > 0.75:
-            bigEnd = True
-        if bigEnd & (L[0] > 0):
-            return 0, 0
-        else:
-            return retMW, retBW
+    if haxx:
+        if (tStep > 8400):
+            if L[0] > 0.75:
+                bigEnd = True
+            if bigEnd & (L[0] > 0):
+                return 0, 0
+            else:
+                return retMW, retBW
     
     return retMW, retBW
 
 tStep = 0
 bigEnd = False
+haxx = False
